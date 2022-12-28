@@ -27,7 +27,7 @@ reg [3:0]counter;
 reg readaccess, writeaccess;
 always @(read, write)
 begin
-	busywait <= ((read || write)&& counter!=4'b1111)? 1 : 0;
+	busywait <= ((read || write)&& counter!=4'b1111)? 1'b1 : 1'b0;
 	readaccess <= (read && !write)? 1'b1 : 1'b0;
 	writeaccess <= (!read && write)? 1'b1 : 1'b0;
 end
