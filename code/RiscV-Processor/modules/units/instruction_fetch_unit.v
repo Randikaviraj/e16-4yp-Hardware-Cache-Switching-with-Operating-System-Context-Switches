@@ -27,7 +27,8 @@ always @(*) begin
 end
 
 always @(posedge clock,posedge reset) begin //update the pc value depend on the positive clock edge
-	 if(reset)begin
+
+	if(reset)begin
 		PC <= -4;
 	 end
     else if(busywait == 1'b0)begin //update the pc when only busywait is zero 
@@ -36,3 +37,11 @@ always @(posedge clock,posedge reset) begin //update the pc value depend on the 
 end  
     
 endmodule
+
+
+/*
+    addi x1 , x0,   1000       x1  = 1000 0x3E8 
+    addi x2 , x1,   2000   x2  = 3000 0xBB8 
+    sw      x1, 0x100(x0)
+    lw      x3, 0x104(x0)
+*/
