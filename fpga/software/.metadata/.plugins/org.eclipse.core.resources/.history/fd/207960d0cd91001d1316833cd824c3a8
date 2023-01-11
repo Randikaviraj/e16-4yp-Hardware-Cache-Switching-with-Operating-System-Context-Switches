@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <io.h>
+#include <unistd.h>
+
+#define PC 0x00081030 // INSERT BASE ADDRESS OF "led_out" PIO DEVICE FROM QSYS
+#define INST 0x00081020
+#define REG0 0x000810a0
+#define REG1 0x00081090
+#define REG2 0x00081080
+#define REG3 0x00081070
+#define REG4 0x00081060
+#define REG5 0x00081050
+#define REG6 0x00081040
+#define OFFSET 0x00000000
+
+/* 8-bit "loop counter" variable. */
+static uint8_t count;
+
+
+int main(void)
+{
+    count = 0;
+
+    /* 0x00-0xFF counting loop. */
+    while( 1 )
+    {
+        usleep(100000); // Wait for about 0.1 seconds
+
+        IOWR_8DIRECT(LED_BASE,OFFSET,count); // Write the value of "count" to the "led_out" PIO device
+
+        if( count == 0xFF )
+        {
+        	usleep(1000000); // If done counting, wait about 1 second...
+        	count = 0;
+        }
+
+        count++;
+    }
+
+    return 0;
+}
